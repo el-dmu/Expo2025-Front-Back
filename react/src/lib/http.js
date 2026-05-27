@@ -80,7 +80,14 @@ export async function http(path, { method = "GET", body, auth = true } = {}) {
 
             if (!retryRes.ok) {
               const text = await retryRes.text();
-              throw new Error(`HTTP ${retryRes.status}: ${text}`);
+              let errorData = null;
+              try {
+                errorData = JSON.parse(text);
+              } catch (e) {}
+              const errMsg = errorData?.detail || errorData?.message || errorData?.error || `HTTP ${retryRes.status}: ${text}`;
+              const err = new Error(errMsg);
+              err.response = { data: errorData };
+              throw err;
             }
 
             resolve(retryRes.json());
@@ -97,7 +104,14 @@ export async function http(path, { method = "GET", body, auth = true } = {}) {
     }
 
     const text = await res.text();
-    throw new Error(`HTTP ${res.status}: ${text}`);
+    let errorData = null;
+    try {
+      errorData = JSON.parse(text);
+    } catch (e) {}
+    const errMsg = errorData?.detail || errorData?.message || errorData?.error || `HTTP ${res.status}: ${text}`;
+    const err = new Error(errMsg);
+    err.response = { data: errorData };
+    throw err;
   }
 
   return res.json();

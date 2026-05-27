@@ -43,6 +43,8 @@ export default function LoginPage() {
       const msg =
         err?.response?.data?.detail ||
         err?.response?.data?.message ||
+        err?.response?.data?.non_field_errors?.[0] ||
+        err?.message ||
         "로그인에 실패했습니다. 입력값을 확인하세요.";
       setErrMsg(msg);
       console.error("로그인 실패:", err);

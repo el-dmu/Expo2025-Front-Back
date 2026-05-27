@@ -378,7 +378,7 @@ export default function CourseProgress() {
 
               <section className="space-y-3">
                 <h3 className="text-sm font-semibold text-gray-700">AI 평가</h3>
-                {evaluationDetail ? (
+                {evaluationDetail && evaluationDetail.ok !== false ? (
                   <div className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-gray-600 space-y-2">
                     <div className="flex justify-between">
                       <span className="text-gray-500">모션</span>
