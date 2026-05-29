@@ -75,7 +75,12 @@ export default function UploadExcel(){
       );
       setSuccess(res?.data?.message || "업로드가 완료되었습니다.");
     } catch (e) {
-      const msg = e?.response?.data?.detail || e?.response?.data?.message || "업로드에 실패했습니다.";
+      const msg =
+        e?.response?.data?.detail ||
+        e?.response?.data?.message ||
+        e?.response?.data?.error ||
+        e?.message ||
+        "업로드에 실패했습니다.";
       setErr(msg);
     } finally {
       setLoading(false);
